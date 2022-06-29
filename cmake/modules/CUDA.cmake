@@ -114,7 +114,7 @@ function(dgl_select_nvcc_arch_flags out_variable)
     unset(CUDA_ARCH_PTX CACHE)
   endif()
 
-  set(CUDA_ARCH_BIN "All")
+  set(CUDA_ARCH_NAME "All")
   if(${CUDA_ARCH_NAME} STREQUAL "Fermi")
     set(__cuda_arch_bin "20 21(20)")
   elseif(${CUDA_ARCH_NAME} STREQUAL "Kepler")
@@ -141,7 +141,7 @@ function(dgl_select_nvcc_arch_flags out_variable)
   message(STATUS "dgl_known_gpu_archs: ${dgl_known_gpu_archs}")
   message(STATUS "__cuda_arch_bin: ${__cuda_arch_bin}")
   message(STATUS "=======================================================================")
-  
+
   # remove dots and convert to lists
   string(REGEX REPLACE "\\." "" __cuda_arch_bin "${__cuda_arch_bin}")
   string(REGEX REPLACE "\\." "" __cuda_arch_ptx "${CUDA_ARCH_PTX}")
