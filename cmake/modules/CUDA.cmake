@@ -10,9 +10,9 @@ endif()
 include(CheckCXXCompilerFlag)
 check_cxx_compiler_flag("-std=c++14"   SUPPORT_CXX14)
 
-set(dgl_known_gpu_archs "35 50 60 70")
+set(dgl_known_gpu_archs "60 70 75")
 if (CUDA_VERSION_MAJOR GREATER_EQUAL "11")
-  set(dgl_known_gpu_archs "${dgl_known_gpu_archs} 80")
+  set(dgl_known_gpu_archs "${dgl_known_gpu_archs} 80 86")
 endif()
 
 ################################################################################################
@@ -114,6 +114,7 @@ function(dgl_select_nvcc_arch_flags out_variable)
     unset(CUDA_ARCH_PTX CACHE)
   endif()
 
+  set(CUDA_ARCH_BIN "All")
   if(${CUDA_ARCH_NAME} STREQUAL "Fermi")
     set(__cuda_arch_bin "20 21(20)")
   elseif(${CUDA_ARCH_NAME} STREQUAL "Kepler")
@@ -134,6 +135,13 @@ function(dgl_select_nvcc_arch_flags out_variable)
     set(__cuda_arch_bin ${CUDA_ARCH_BIN})
   endif()
 
+  message(STATUS "=======================================================================")
+  message(STATUS "CUDA_gpu_detect_output: ${CUDA_gpu_detect_output}")
+  message(STATUS "CUDA_ARCH_NAME: ${CUDA_ARCH_NAME}")
+  message(STATUS "dgl_known_gpu_archs: ${dgl_known_gpu_archs}")
+  message(STATUS "__cuda_arch_bin: ${__cuda_arch_bin}")
+  message(STATUS "=======================================================================")
+  
   # remove dots and convert to lists
   string(REGEX REPLACE "\\." "" __cuda_arch_bin "${__cuda_arch_bin}")
   string(REGEX REPLACE "\\." "" __cuda_arch_ptx "${CUDA_ARCH_PTX}")
