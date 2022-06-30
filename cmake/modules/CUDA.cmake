@@ -64,8 +64,6 @@ set(CUDA_gpu_detect_output "")
       # The line below prevents CMake from inserting a variable with line
       # breaks in the cache
       message(STATUS "Found CUDA arch ${__nvcc_out}")
-      string(REGEX MATCH "([1-9].[0-9])" __nvcc_out "${__nvcc_out}")
-      string(REPLACE "2.1" "2.1(2.0)" __nvcc_out "${__nvcc_out}")
       set(CUDA_gpu_detect_output ${__nvcc_out} CACHE INTERNAL "Returned GPU architetures from mshadow_detect_gpus tool" FORCE)
     else()
       message(WARNING "Running GPU detection script with nvcc failed: ${__nvcc_out}")
@@ -114,7 +112,6 @@ function(dgl_select_nvcc_arch_flags out_variable)
     unset(CUDA_ARCH_PTX CACHE)
   endif()
 
-  set(CUDA_ARCH_NAME "All")
   if(${CUDA_ARCH_NAME} STREQUAL "Fermi")
     set(__cuda_arch_bin "20 21(20)")
   elseif(${CUDA_ARCH_NAME} STREQUAL "Kepler")
